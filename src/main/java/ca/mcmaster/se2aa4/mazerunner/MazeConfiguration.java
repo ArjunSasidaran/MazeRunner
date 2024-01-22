@@ -37,9 +37,10 @@ public class MazeConfiguration{
             }
 
         } catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
+            logger.error("/!\\ An error has occured /!\\",e);
         }
-        return new Maze("");
+        System.out.println("Hello");
+        return null;
         
     }
 
@@ -63,13 +64,13 @@ public class MazeConfiguration{
                 mazeString += System.lineSeparator();
                 //System.out.print((System.lineSeparator()));
             }
+            
             Maze maze = new Maze(mazeString);
             
-
             if(path != null){
-                //boolean isValid = MazeSolver.verifyPath(maze,path);
-                boolean isValid = true;
-                if(isValid){
+                boolean startToEnd = MazeSolver.verifyPath(maze,path,true);
+                boolean endToSTart = MazeSolver.verifyPath(maze,path,true);
+                if(startToEnd||endToSTart){
                     logger.info("User Path is vaild " + path);
                 }
                 else{
@@ -79,9 +80,11 @@ public class MazeConfiguration{
             return maze;
         }
         catch(Exception e){
-            logger.error("/!\\ An error has occured /!\\");
+            logger.error("/!\\ An error has occured /!\\",e);
+            
         }
-        return new Maze("");
+        System.out.println("Hello");
+        return null;
        
     }
 
