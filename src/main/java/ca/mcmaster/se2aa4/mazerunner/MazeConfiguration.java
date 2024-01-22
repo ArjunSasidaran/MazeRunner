@@ -39,7 +39,6 @@ public class MazeConfiguration{
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\",e);
         }
-        System.out.println("Hello");
         return null;
         
     }
@@ -68,8 +67,9 @@ public class MazeConfiguration{
             Maze maze = new Maze(mazeString);
             
             if(path != null){
-                boolean startToEnd = MazeSolver.verifyPath(maze,path,true);
-                boolean endToSTart = MazeSolver.verifyPath(maze,path,true);
+                String newPath = convertFactorizedForm(path);
+                boolean startToEnd = MazeSolver.verifyPath(maze,newPath,true);
+                boolean endToSTart = MazeSolver.verifyPath(maze,newPath,true);
                 if(startToEnd||endToSTart){
                     logger.info("User Path is vaild " + path);
                 }
@@ -83,9 +83,28 @@ public class MazeConfiguration{
             logger.error("/!\\ An error has occured /!\\",e);
             
         }
-        System.out.println("Hello");
         return null;
        
+    }
+
+    private static String convertFactorizedForm(String path){
+        String result = "";
+        int i = 0;
+        while(i < path.length()){
+            if(Character.isDigit(path.charAt(i))){
+                int val = Character.getNumericValue(path.charAt(i));
+                for(int x = 0; x < val; x++){
+                    result += path.charAt(i+1);
+                }
+                i = i + 2;
+            }
+            else{
+                result += path.charAt(i);
+                i = i + 1;
+            }
+        }
+        return result;
+
     }
 
 }
