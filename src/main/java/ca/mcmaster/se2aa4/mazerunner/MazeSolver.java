@@ -16,24 +16,20 @@ public class MazeSolver {
     }
 
     public static boolean verifyPath(Maze maze, String path, boolean isStart){
-    
+
+        int [] startPosition = new int[2];
+        
         if(!isStart){
-            int [] position = new int[2];
-            position[0] = maze.getEndRow();
-            position[1] = maze.getEndColumn();
-            maze.setCurrentPosition(position);
+            startPosition[0] = maze.getEndRow();
+            startPosition[1] = maze.getEndColumn();
+            maze.setCurrentPosition(startPosition);
             Direction newDirection = maze.getEndDirection();
             maze.setDirection(newDirection);
-           // int test[] = maze.getPosition();
-           //logger.info(maze.getDirection());
-           //logger.info(test[0]);
-           //logger.info(test[1]);
         }
         else{
-            int [] start = new int[2];
-            start[0] = maze.getStartRow();
-            start[1] = maze.getStartColumn();
-            maze.setCurrentPosition(start);
+            startPosition[0] = maze.getStartRow();
+            startPosition[1] = maze.getStartColumn();
+            maze.setCurrentPosition(startPosition);
         }
 
         int[] currentPosition = new int[2];
