@@ -12,6 +12,8 @@ public class Main {
         MazeConfiguration mazeConfig = new MazeConfiguration();
         Maze maze = mazeConfig.config(args);
         maze.printMaze();
+        logger.info(maze.getStartRow());
+        logger.info(maze.getStartColumn());
         logger.info("**** Computing path");
         logger.info("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");

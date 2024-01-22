@@ -52,11 +52,11 @@ public class MazeConfiguration{
             while ((line = reader.readLine()) != null) {
                 for (int idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
-                        mazeString += "#";
+                        mazeString += "1";
                         //System.out.print("WALL ");
 
                     } else if (line.charAt(idx) == ' ') {
-                        mazeString += " ";
+                        mazeString += "0";
                         //System.out.print("PASS ");
                     }
                 }

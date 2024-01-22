@@ -9,15 +9,12 @@ public class MazeSolver {
     
     private static final Logger logger = LogManager.getLogger();
 
-    public void solveMaze(){
-
-    }
-
     public String generatePath( Maze maze){
         return "FFFRLF";
     }
 
     private void verifyPath(Maze maze, String path){
+        
 
     }
 

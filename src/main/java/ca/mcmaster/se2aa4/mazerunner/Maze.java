@@ -8,12 +8,9 @@ public class Maze {
     private int startRow;
     private int startColumn;
 
-    public Maze(){
-        
-    }
-
     public Maze(String mazeString){
         storeMaze(mazeString);
+        findStart();
     }
 
     private void storeMaze(String mazeString) {
@@ -31,27 +28,27 @@ public class Maze {
 
     private void findStart(){
         for(int i = 0; i < rows; i++){
-            if(maze[i][0] == ' '){
-                startRow = i;
-                startColumn = 0;
+            if(maze[i][0] == '0'){
+                this.startRow = i;
+                this.startColumn = 0;
                 return;
             }
-            else if(maze[i][columns-1] == ' '){
-                startRow = i;
-                startColumn = columns - 1;
+            else if(maze[i][columns-1] == '0'){
+                this.startRow = i;
+                this.startColumn = columns - 1;
                 return;
             }
         }
 
         for(int i = 0; i < columns; i++){
-            if(maze[0][i] == ' '){
-                startRow = 0;
-                startColumn = i;
+            if(maze[0][i] == '0'){
+                this.startRow = 0;
+                this.startColumn = i;
                 return;
             }
-            else if(maze[rows-1][i] == ' '){
-                startRow = rows-1;
-                startColumn = i;
+            else if(maze[rows-1][i] == '0'){
+                this.startRow = rows-1;
+                this.startColumn = i;
                 return;
             }
         }
