@@ -68,8 +68,9 @@ public class MazeConfiguration{
             
             if(path != null){
                 String newPath = convertFactorizedForm(path);
+                String reversed = reversePath(newPath);
                 boolean startToEnd = MazeSolver.verifyPath(maze,newPath,true);
-                boolean endToSTart = MazeSolver.verifyPath(maze,newPath,true);
+                boolean endToSTart = MazeSolver.verifyPath(maze,reversed,true);
                 if(startToEnd||endToSTart){
                     logger.info("User Path is vaild " + path);
                 }
@@ -87,6 +88,21 @@ public class MazeConfiguration{
        
     }
     
+    private static String reversePath(String path){
+        String result = "";
+        for(int i = 0; i < path.length(); i++){
+            if(path.charAt(i) == 'L'){
+                result += "R";
+            }
+            else if(path.charAt(i) == 'R'){
+                result += "L";
+            }
+            else
+                result += path.charAt(i);
+        }
+        return result;
+    }
+
     private static String convertFactorizedForm(String path){
         String result = "";
         int i = 0;

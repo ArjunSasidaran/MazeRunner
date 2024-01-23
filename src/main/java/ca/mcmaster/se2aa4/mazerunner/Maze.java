@@ -11,6 +11,7 @@ public class Maze {
     private int columns;
     private int startRow;
     private int startColumn;
+    private Direction startDirection;
     private int endRow;
     private int endColumn;
     private Direction endDirection;
@@ -80,6 +81,7 @@ public class Maze {
                 this.startRow = i;
                 this.startColumn = 0;
                 currDirection = Direction.RIGHT;
+                startDirection = Direction.RIGHT;
                 this.currPosition[0] = i;
                 this.currPosition[1] = 0;
                 return;
@@ -88,6 +90,7 @@ public class Maze {
                 this.startRow = i;
                 this.startColumn = columns - 1;
                 currDirection = Direction.LEFT;
+                startDirection = Direction.LEFT;
                 this.currPosition[0] = i;
                 this.currPosition[1] = columns -1;
                 return;
@@ -99,6 +102,7 @@ public class Maze {
                 this.startRow = 0;
                 this.startColumn = i;
                 currDirection = Direction.DOWN;
+                startDirection = Direction.DOWN;
                 this.currPosition[0] = 0;
                 this.currPosition[1] = i;
                 return;
@@ -106,6 +110,7 @@ public class Maze {
             else if(maze[rows-1][i] == '0'){
                 this.startRow = rows-1;
                 this.startColumn = i;
+                startDirection = Direction.UP;
                 currDirection = Direction.UP;
                 currPosition[0] = rows-1;
                 currPosition[1] = i;
@@ -154,6 +159,9 @@ public class Maze {
         return this.currDirection;
     }
 
+    public Direction getStartDirection(){
+        return this.startDirection;
+    }
 
     public Direction getEndDirection(){
         return this.endDirection;

@@ -19,6 +19,8 @@ public class MazeSolver {
         maze.setCurrentPosition(startPosition);
 
         startPosition = maze.getPosition();
+        Direction startDirection = maze.getStartDirection();
+        maze.setDirection(startDirection);
 
         while(startPosition[0] != maze.getEndRow() || startPosition[1] != maze.getEndColumn()){
 
