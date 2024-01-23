@@ -11,6 +11,10 @@ public class Main {
         logger.info("** Starting Maze Runner");
         MazeConfiguration mazeConfig = new MazeConfiguration();
         Maze maze = mazeConfig.config(args);
+        MazeSolver solver = new MazeSolver();
+        String path = solver.generatePath(maze);
+        System.out.println(path);
+        maze.printMaze();
         //maze.printMaze();
         logger.info("**** Computing path");
         logger.info("PATH NOT COMPUTED");

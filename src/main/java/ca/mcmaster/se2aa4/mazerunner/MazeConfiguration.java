@@ -86,7 +86,7 @@ public class MazeConfiguration{
         return null;
        
     }
-
+    
     private static String convertFactorizedForm(String path){
         String result = "";
         int i = 0;
