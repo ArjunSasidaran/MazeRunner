@@ -21,21 +21,35 @@ public class MazeSolver {
         startPosition = maze.getPosition();
 
         while(startPosition[0] != maze.getEndRow() || startPosition[1] != maze.getEndColumn()){
-            if(validMove(maze)){
-                moveForward(maze);
-                resultPath += "F";
-            }
-            else{
-                maze.updateDirection(Direction.RIGHT);
-                resultPath += "R";
-                if(!validMove(maze)){
-                   maze.updateDirection(Direction.RIGHT);
-                   maze.updateDirection(Direction.RIGHT);
-                   resultPath += "RR"; 
+
+            maze.updateDirection(Direction.RIGHT);
+            if(!validMove(maze)){
+                maze.updateDirection(Direction.LEFT);
+                if(validMove(maze)){
+                    moveForward(maze);
+                    resultPath += "F";
+                }
+                else{
+                    maze.updateDirection(Direction.LEFT);
+                    if(validMove(maze)){
+                        resultPath += "LF";
+                        moveForward(maze);
+                    }
+                    else{
+                        maze.updateDirection(Direction.RIGHT);
+                        maze.updateDirection(Direction.RIGHT);
+                        maze.updateDirection(Direction.RIGHT);
+                        moveForward(maze);
+                        resultPath += "RRF";
+                    }
                 }
             }
-            startPosition = maze.getPosition();
-
+            else{
+                resultPath += "RF";
+                moveForward(maze);
+            }
+            logger.info(resultPath);
+            
         }
         return resultPath;
     }
