@@ -89,21 +89,34 @@ public class MazeConfiguration{
 
     private static String convertFactorizedForm(String path){
         String result = "";
+        String repeat = "";
         int i = 0;
         String modifiedPath = path.replaceAll(" ", "");
         while(i < modifiedPath.length()){
             if(Character.isDigit(modifiedPath.charAt(i))){
-                int val = Character.getNumericValue(modifiedPath.charAt(i));
-                for(int x = 0; x < val; x++){
-                    result += modifiedPath.charAt(i+1);
+                while(Character.isDigit(modifiedPath.charAt(i)) && i < modifiedPath.length()){
+                    repeat += String.valueOf(modifiedPath.charAt(i));
+                    i++;
                 }
-                i = i + 2;
+                int val = Integer.valueOf(repeat);
+                System.out.println(val);
+
+                if(i < modifiedPath.length()){
+                    char repeatedLetter = modifiedPath.charAt(i);
+                    for (int x = 0; x < val; x++) {
+                        result += repeatedLetter;
+                    }
+                    repeat = "";
+                    i++;
+                }
+               
             }
             else{
                 result += modifiedPath.charAt(i);
-                i = i + 1;
+                i++;
             }
         }
+        System.out.println(result);
         return result;
 
     }
