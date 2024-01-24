@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +9,32 @@ public class MazeSolver {
     
     private static final Logger logger = LogManager.getLogger();
 
-    public static String generatePath( Maze maze){
+
+    public static void generateBothPaths(Maze maze){
+        String canonicalPath = generatePath(maze);
+        String factoriezedPath = convertToFactorized(canonicalPath);
+        System.out.println("Canonical Path: " + canonicalPath);
+        System.out.println("Factorized Path: " + factoriezedPath);
+    }
+    
+
+    private static String convertToFactorized(String path){
+        String factorizedPath = "";
+        int i = 0;
+        while(i < path.length()){
+            char current = path.charAt(i);
+            int counter = 0;
+            while(i < path.length() && path.charAt(i) == current){
+                counter += 1;
+                i++;
+            }
+            factorizedPath += String.valueOf(counter) + current + " ";
+            //System.out.println("hello");
+        }
+        return factorizedPath;
+    }
+
+    private static String generatePath( Maze maze){
         String resultPath = "";
         int [] startPosition = new int[2];
         startPosition[0] = maze.getStartRow();
@@ -50,7 +73,6 @@ public class MazeSolver {
                 resultPath += "RF";
                 moveForward(maze);
             }
-            logger.info(resultPath);
             
         }
         return resultPath;
@@ -88,7 +110,7 @@ public class MazeSolver {
     public static boolean verifyPath(Maze maze, String path, boolean isStart){
 
         int [] startPosition = new int[2];
-
+    
         if(!isStart){
             startPosition[0] = maze.getEndRow();
             startPosition[1] = maze.getEndColumn();
@@ -100,9 +122,11 @@ public class MazeSolver {
             startPosition[0] = maze.getStartRow();
             startPosition[1] = maze.getStartColumn();
             maze.setCurrentPosition(startPosition);
+            maze.setDirection(maze.getStartDirection());
         }
 
         int[] currentPosition = new int[2];
+        
 
         for(int i = 0; i < path.length(); i++){
             char currentMove = path.charAt(i);
@@ -170,9 +194,6 @@ public class MazeSolver {
                     maze.updateDirection(Direction.LEFT);
                     break;
             }
-          // logger.info(maze.getDirection());
-          // logger.info(currentPosition[0]);
-          // logger.info(currentPosition[1]);
 
         }
 
@@ -228,9 +249,6 @@ public class MazeSolver {
     
         }
         return false;
-
-        
     }
-
 
 }

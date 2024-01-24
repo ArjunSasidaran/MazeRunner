@@ -68,9 +68,8 @@ public class MazeConfiguration{
             
             if(path != null){
                 String newPath = convertFactorizedForm(path);
-                String reversed = reversePath(newPath);
                 boolean startToEnd = MazeSolver.verifyPath(maze,newPath,true);
-                boolean endToSTart = MazeSolver.verifyPath(maze,reversed,true);
+                boolean endToSTart = MazeSolver.verifyPath(maze,newPath,false);
                 if(startToEnd||endToSTart){
                     logger.info("User Path is vaild " + path);
                 }
@@ -87,35 +86,21 @@ public class MazeConfiguration{
         return null;
        
     }
-    
-    private static String reversePath(String path){
-        String result = "";
-        for(int i = 0; i < path.length(); i++){
-            if(path.charAt(i) == 'L'){
-                result += "R";
-            }
-            else if(path.charAt(i) == 'R'){
-                result += "L";
-            }
-            else
-                result += path.charAt(i);
-        }
-        return result;
-    }
 
     private static String convertFactorizedForm(String path){
         String result = "";
         int i = 0;
-        while(i < path.length()){
-            if(Character.isDigit(path.charAt(i))){
-                int val = Character.getNumericValue(path.charAt(i));
+        String modifiedPath = path.replaceAll(" ", "");
+        while(i < modifiedPath.length()){
+            if(Character.isDigit(modifiedPath.charAt(i))){
+                int val = Character.getNumericValue(modifiedPath.charAt(i));
                 for(int x = 0; x < val; x++){
-                    result += path.charAt(i+1);
+                    result += modifiedPath.charAt(i+1);
                 }
                 i = i + 2;
             }
             else{
-                result += path.charAt(i);
+                result += modifiedPath.charAt(i);
                 i = i + 1;
             }
         }

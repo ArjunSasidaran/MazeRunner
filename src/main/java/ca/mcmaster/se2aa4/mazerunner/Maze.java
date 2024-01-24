@@ -38,39 +38,15 @@ public class Maze {
         }
     }
 
-    private void findEnd(){
-       
+    private void findEnd(){       
         for(int i = 0; i < rows; i++){
-            if(maze[i][0] == '0' && (startRow != i || startColumn != 0)){
-                this.endRow = i;
-                this.endColumn = 0;
-                endDirection = Direction.RIGHT;
-                return;
-            }
-            else if(maze[i][columns-1] == '0' && (startRow != i || startColumn != columns-1)){
+            if(maze[i][columns-1] == '0'){
                 this.endRow = i;
                 this.endColumn = columns - 1;
                 endDirection = Direction.LEFT;
                 return;
             }
         }
-
-        for(int i = 0; i < columns; i++){
-            if(maze[0][i] == '0' && (startRow != 0 || startColumn != i)){
-                this.endRow = 0;
-                this.endColumn = i;
-                endDirection = Direction.DOWN;
-                return;
-            }
-            else if(maze[rows-1][i] == '0' && (startRow != rows-1 || startColumn != i)){
-                this.endRow = rows-1;
-                this.endColumn = i;
-                endDirection = Direction.UP;
-                return;
-            }
-        }
-
-
     }
 
 
@@ -86,36 +62,7 @@ public class Maze {
                 this.currPosition[1] = 0;
                 return;
             }
-            else if(maze[i][columns-1] == '0'){
-                this.startRow = i;
-                this.startColumn = columns - 1;
-                currDirection = Direction.LEFT;
-                startDirection = Direction.LEFT;
-                this.currPosition[0] = i;
-                this.currPosition[1] = columns -1;
-                return;
-            }
-        }
-
-        for(int i = 0; i < columns; i++){
-            if(maze[0][i] == '0'){
-                this.startRow = 0;
-                this.startColumn = i;
-                currDirection = Direction.DOWN;
-                startDirection = Direction.DOWN;
-                this.currPosition[0] = 0;
-                this.currPosition[1] = i;
-                return;
-            }
-            else if(maze[rows-1][i] == '0'){
-                this.startRow = rows-1;
-                this.startColumn = i;
-                startDirection = Direction.UP;
-                currDirection = Direction.UP;
-                currPosition[0] = rows-1;
-                currPosition[1] = i;
-                return;
-            }
+            
         }
     }
 
