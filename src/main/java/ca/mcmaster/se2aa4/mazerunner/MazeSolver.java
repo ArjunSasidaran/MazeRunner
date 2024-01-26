@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,171 +9,119 @@ public class MazeSolver {
     
     private static final Logger logger = LogManager.getLogger();
 
-    public static String generatePath( Maze maze){
+
+    public static void generateBothPaths(Maze maze){
+        String canonicalPath = generatePath(maze);
+        String factoriezedPath = convertToFactorized(canonicalPath);
+        System.out.println("Canonical Path: " + canonicalPath);
+        System.out.println("Factorized Path: " + factoriezedPath);
+    }
+    
+    private static String convertToFactorized(String path){
+        String factorizedPath = "";
+        int i = 0;
+        while(i < path.length()){
+            char current = path.charAt(i);
+            int counter = 0;
+            while(i < path.length() && path.charAt(i) == current){
+                counter += 1;
+                i++;
+            }
+            factorizedPath += String.valueOf(counter) + current + " ";
+        }
+        return factorizedPath;
+    }
+
+    private static String generatePath( Maze maze){
         String resultPath = "";
         int [] startPosition = new int[2];
         startPosition[0] = maze.getStartRow();
         startPosition[1] = maze.getStartColumn();
-        maze.setCurrentPosition(startPosition);
+        Player runner = new Player(maze, startPosition, maze.getStartDirection());
+    
+        int [] currentPosition = new int[2];
+        currentPosition = runner.getPosition(); 
 
-        startPosition = maze.getPosition();
+        while(currentPosition[0] != maze.getEndRow() || currentPosition[1] != maze.getEndColumn()){
 
-        while(startPosition[0] != maze.getEndRow() || startPosition[1] != maze.getEndColumn()){
-
-            maze.updateDirection(Direction.RIGHT);
-            if(!validMove(maze)){
-                maze.updateDirection(Direction.LEFT);
-                if(validMove(maze)){
-                    moveForward(maze);
+            runner.turnRight();
+            if(!runner.validMove()){
+                runner.turnLeft();
+                if(runner.validMove()){
+                    runner.moveForward();
                     resultPath += "F";
                 }
                 else{
-                    maze.updateDirection(Direction.LEFT);
-                    if(validMove(maze)){
+                    runner.turnLeft();
+                    if(runner.validMove()){
                         resultPath += "LF";
-                        moveForward(maze);
+                        runner.moveForward();
                     }
                     else{
-                        maze.updateDirection(Direction.RIGHT);
-                        maze.updateDirection(Direction.RIGHT);
-                        maze.updateDirection(Direction.RIGHT);
-                        moveForward(maze);
+                        runner.turnRight();
+                        runner.turnRight();
+                        runner.turnRight();
+                        runner.moveForward();
                         resultPath += "RRF";
                     }
                 }
             }
             else{
+                runner.moveForward();
                 resultPath += "RF";
-                moveForward(maze);
-            }
-            logger.info(resultPath);
-            
-        }
-        return resultPath;
-    }
 
-    public static void moveForward(Maze maze){
-        int[] currentPosition = new int[2];
-        currentPosition = maze.getPosition();
+            }
+        }
     
-        if(validMove(maze)){
-            if(maze.getDirection() == Direction.RIGHT){
-                currentPosition[1] = currentPosition[1] + 1;
-                maze.setCurrentPosition(currentPosition);
-            }
-            if(maze.getDirection() == Direction.LEFT){
-                currentPosition[1] = currentPosition[1] - 1;
-                maze.setCurrentPosition(currentPosition);
-            }
-            if(maze.getDirection() == Direction.UP){
-                currentPosition[0] = currentPosition[0] - 1;
-                maze.setCurrentPosition(currentPosition);
-            }
-            if(maze.getDirection() == Direction.DOWN){
-                currentPosition[0] = currentPosition[0] + 1;
-                maze.setCurrentPosition(currentPosition);
-            }
-            
-            
-
-
-        }
-        
+        return resultPath;
     }
 
     public static boolean verifyPath(Maze maze, String path, boolean isStart){
 
         int [] startPosition = new int[2];
-
+        Direction startingDirection;
+       
         if(!isStart){
             startPosition[0] = maze.getEndRow();
             startPosition[1] = maze.getEndColumn();
-            maze.setCurrentPosition(startPosition);
-            Direction newDirection = maze.getEndDirection();
-            maze.setDirection(newDirection);
+            startingDirection = maze.getEndDirection();
         }
         else{
             startPosition[0] = maze.getStartRow();
             startPosition[1] = maze.getStartColumn();
-            maze.setCurrentPosition(startPosition);
+            startingDirection = maze.getStartDirection();
+           
         }
 
-        int[] currentPosition = new int[2];
-
+        Player runner = new Player(maze, startPosition, startingDirection);
+        
         for(int i = 0; i < path.length(); i++){
             char currentMove = path.charAt(i);
-            currentPosition = maze.getPosition();
-            //logger.info(maze.getDirection());
+    
             switch(currentMove){
                 case('F'):
-                    if(maze.getDirection() == Direction.RIGHT)
-                    { 
-                        if((maze.getValue(currentPosition[0],currentPosition[1]+ 1)) == '0'){
-                            currentPosition[1] = currentPosition[1] + 1;
-                            maze.setCurrentPosition(currentPosition);
-                            break;
-                        }
-                        else{
-                            logger.info("Invalid Move");
-                            return false;
-                        }
-                        
-                       
+                    if(runner.validMove()){
+                        runner.moveForward();
+                        break;
                     }
-                    else if(maze.getDirection() == Direction.LEFT){
-                        if((maze.getValue(currentPosition[0],currentPosition[1] - 1)) == '0'){
-                            currentPosition[1] = currentPosition[1] - 1;
-                            maze.setCurrentPosition(currentPosition);
-                            break;
-        
-                        }
-                        else{
-                            logger.info("Invalid Move");
-                            return false;
-                        }
-                        
+                    else{
+                        logger.info("Invalid Move");
+                        return false;
                     }
-                    else if(maze.getDirection() == Direction.UP){
-                        if((maze.getValue(currentPosition[0] - 1,currentPosition[1])) == '0'){
-                            currentPosition[0] = currentPosition[0] - 1;
-                            maze.setCurrentPosition(currentPosition);
-                            break;
-                        }
-                        else{
-                            logger.info("Invalid Move");
-                            return false;
-                        }
-                       
-                    }
-                    else if(maze.getDirection() == Direction.DOWN){
-                        if((maze.getValue(currentPosition[0] + 1,currentPosition[1])) == '0'){
-                            currentPosition[0] = currentPosition[0] + 1;
-                            maze.setCurrentPosition(currentPosition);
-                            break;
-                        }
-                        else{
-                            logger.info("Invalid Move");
-                            return false;
-                        }
-                
-                    }
-                    
+             
                 case('R'):
-                    maze.updateDirection(Direction.RIGHT);
+                    runner.turnRight();
                     break;
                 
                 case('L'):
-                    maze.updateDirection(Direction.LEFT);
+                    runner.turnLeft();
                     break;
             }
-          // logger.info(maze.getDirection());
-          // logger.info(currentPosition[0]);
-          // logger.info(currentPosition[1]);
 
         }
 
-        if(currentPosition[0] == maze.getEndRow() && currentPosition[1] == maze.getEndColumn() && isStart || 
-        currentPosition[0] == maze.getStartRow() && currentPosition[1] == maze.getStartColumn() && isStart == false){
+        if(runner.getPosition()[0] == maze.getEndRow() && runner.getPosition()[1] == maze.getEndColumn() && isStart || 
+        runner.getPosition()[0] == maze.getStartRow() && runner.getPosition()[1] == maze.getStartColumn() && isStart == false){
             return true;
         }
         else{
@@ -183,52 +129,5 @@ public class MazeSolver {
         }
 
     }
-
-    
-    public static boolean validMove(Maze maze ){
-        int currentPosition [] = new int[2];
-        currentPosition = maze.getPosition();
-
-        if(maze.getDirection() == Direction.RIGHT)
-        { 
-            if((maze.getValue(currentPosition[0],currentPosition[1] + 1)) == '0'){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        else if(maze.getDirection() == Direction.LEFT){
-            if((maze.getValue(currentPosition[0],currentPosition[1] - 1)) == '0'){
-                return true;
-            }
-            else{
-                return false;
-            }
-            
-        }
-        else if(maze.getDirection() == Direction.UP){
-            if((maze.getValue(currentPosition[0] - 1,currentPosition[1])) == '0'){
-                return true;
-            }
-            else{
-                return false;
-            }
-           
-        }
-        else if(maze.getDirection() == Direction.DOWN){
-            if((maze.getValue(currentPosition[0] + 1,currentPosition[1])) == '0'){
-                return true;
-            }
-            else{
-                return false;
-            }
-    
-        }
-        return false;
-
-        
-    }
-
 
 }
