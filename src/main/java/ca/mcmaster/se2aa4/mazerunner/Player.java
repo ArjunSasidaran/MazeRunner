@@ -43,66 +43,50 @@ public class Player {
     }
 
     public void moveForward(){
-
         if(validMove()){
             if(currentDirection == Direction.RIGHT){
                 currentPosition[1] = currentPosition[1] + 1;
-                setCurrentPosition(currentPosition);
             }
             else if(currentDirection == Direction.LEFT){
                 currentPosition[1] = currentPosition[1] - 1;
-                setCurrentPosition(currentPosition);
             }
             else if(currentDirection == Direction.UP){
                 currentPosition[0] = currentPosition[0] - 1;
-                setCurrentPosition(currentPosition);
             }
             else if(currentDirection == Direction.DOWN){
                 currentPosition[0] = currentPosition[0] + 1;
-                setCurrentPosition(currentPosition);
             }
-
         }
-
     }
+
+
 
     public boolean validMove(){
 
-        if(currentDirection == Direction.RIGHT)
+        if(currentDirection == Direction.RIGHT && currentPosition[1] + 1 < maze.getColumns())
         { 
-            if((maze.getValue(currentPosition[0],currentPosition[1] + 1)) == '0'){
+            if((maze.getValue(currentPosition[0],currentPosition[1] + 1)) == '0')
                 return true;
-            }
-            else{
+            else
                 return false;
-            }
         }
-        else if(currentDirection == Direction.LEFT){
-            if((maze.getValue(currentPosition[0],currentPosition[1] - 1)) == '0'){
+        else if(currentDirection == Direction.LEFT && currentPosition[1] - 1 >= 0){
+            if((maze.getValue(currentPosition[0],currentPosition[1] - 1)) == '0')
                 return true;
-            }
-            else{
+            else
                 return false;
-            }
-            
         }
-        else if(currentDirection == Direction.UP){
-            if((maze.getValue(currentPosition[0] - 1,currentPosition[1])) == '0'){
+        else if(currentDirection == Direction.UP && currentPosition[0] - 1 >= 0 ){
+            if((maze.getValue(currentPosition[0] - 1,currentPosition[1])) == '0')
                 return true;
-            }
-            else{
+            else
                 return false;
-            }
-           
         }
-        else if(currentDirection == Direction.DOWN){
-            if((maze.getValue(currentPosition[0] + 1,currentPosition[1])) == '0'){
+        else if(currentDirection == Direction.DOWN && currentPosition[0] + 1 < maze.getRows()){
+            if((maze.getValue(currentPosition[0] + 1,currentPosition[1])) == '0')
                 return true;
-            }
-            else{
+            else
                 return false;
-            }
-    
         }
         return false;
     }
@@ -118,10 +102,5 @@ public class Player {
     public Direction getDirection() {
        return this.currentDirection;
     }
-
-
-
-
-
 
 }

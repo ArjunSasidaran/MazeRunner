@@ -99,7 +99,7 @@ public class MazeConfiguration{
                     i++;
                 }
                 int val = Integer.valueOf(repeat);
-                System.out.println(val);
+                //System.out.println(val);
 
                 if(i < modifiedPath.length()){
                     char repeatedLetter = modifiedPath.charAt(i);
@@ -116,7 +116,6 @@ public class MazeConfiguration{
                 i++;
             }
         }
-        System.out.println(result);
         return result;
 
     }
