@@ -3,8 +3,6 @@ package ca.mcmaster.se2aa4.mazerunner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ca.mcmaster.se2aa4.mazerunner.Maze.Direction;
-
 public class MazeSolver {
     
     private static final Logger logger = LogManager.getLogger();
@@ -17,7 +15,7 @@ public class MazeSolver {
     }
     
 
-    public static String solveMaze( Maze maze){
+    private static String solveMaze( Maze maze){
         String resultPath = "";
         int [] startPosition = new int[2];
         startPosition[0] = maze.getStartRow();

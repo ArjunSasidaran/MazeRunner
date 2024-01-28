@@ -2,10 +2,6 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class Maze {
 
-    public enum Direction{
-        UP,DOWN,RIGHT,LEFT
-    }
-
     private char [][] maze;
     private int rows;
     private int columns;

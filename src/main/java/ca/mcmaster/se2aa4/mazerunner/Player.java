@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import ca.mcmaster.se2aa4.mazerunner.Maze.Direction;
-
 public class Player {
 
     private Maze maze;
@@ -15,31 +13,11 @@ public class Player {
     }
 
     public void turnRight(){
-        if(currentDirection == Direction.UP){
-            currentDirection = Direction.RIGHT;
-        }
-        else if(currentDirection == Direction.DOWN){
-            currentDirection = Direction.LEFT;
-        }
-        else if(currentDirection == Direction.RIGHT){
-            currentDirection = Direction.DOWN;
-        }
-        else
-            currentDirection = Direction.UP;
+       currentDirection = currentDirection.getNextRight();
     }
 
     public void turnLeft(){
-        if(currentDirection == Direction.UP){
-            currentDirection = Direction.LEFT;
-        }
-        else if(currentDirection == Direction.DOWN){
-            currentDirection = Direction.RIGHT;
-        }
-        else if(currentDirection == Direction.RIGHT){
-            currentDirection = Direction.UP;
-        }
-        else
-            currentDirection = Direction.DOWN;
+       currentDirection = currentDirection.getNextLeft();
     }
 
     public void moveForward(){
@@ -56,7 +34,7 @@ public class Player {
     }
 
     public boolean validMove(){
-
+     
         if(currentDirection == Direction.RIGHT && currentPosition[1] + 1 < maze.getColumns())
         { 
             if((maze.getValue(currentPosition[0],currentPosition[1] + 1)) == '0')
@@ -82,7 +60,9 @@ public class Player {
             else
                 return false;
         }
-        return false;
+        else
+            return false;
+        
     }
 
     public int [] getPosition(){
