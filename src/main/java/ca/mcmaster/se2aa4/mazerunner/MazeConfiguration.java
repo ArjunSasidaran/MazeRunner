@@ -60,9 +60,8 @@ public class MazeConfiguration{
             Maze maze = new Maze(mazeString);
             
             if(path != null){
-                String newPath = MazeSolver.convertToCanonical(path);
-                boolean startToEnd = MazeSolver.verifyPath(maze,newPath,true);
-                boolean endToSTart = MazeSolver.verifyPath(maze,newPath,false);
+                boolean startToEnd = MazeSolver.verifyPath(maze,path,true);
+                boolean endToSTart = MazeSolver.verifyPath(maze,path,false);
                 if(startToEnd||endToSTart){
                     System.out.println("Correct Path");
                 }

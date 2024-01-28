@@ -10,61 +10,14 @@ public class MazeSolver {
     private static final Logger logger = LogManager.getLogger();
 
     public static void generateBothPaths(Maze maze){
-        String canonicalPath = generatePath(maze);
-        String factoriezedPath = convertToFactorized(canonicalPath);
+        String canonicalPath = solveMaze(maze);
+        String factoriezedPath = PathConverter.convertToFactorized(canonicalPath);
         System.out.println("Canonical Path: " + canonicalPath);
         System.out.println("Factorized Path: " + factoriezedPath);
     }
     
-    private static String convertToFactorized(String path){
-        String factorizedPath = "";
-        int i = 0;
-        while(i < path.length()){
-            char current = path.charAt(i);
-            int counter = 0;
-            while(i < path.length() && path.charAt(i) == current){
-                counter += 1;
-                i++;
-            }
-            if(counter == 1)
-                factorizedPath += current + " ";
-            else
-                factorizedPath += String.valueOf(counter) + current + " ";
-        }
-        return factorizedPath;
-    }
 
-    public static String convertToCanonical(String path){
-        String result = "";
-        String repeat = "";
-        int i = 0;
-        String modifiedPath = path.replaceAll(" ", "");
-        while(i < modifiedPath.length()){
-            if(Character.isDigit(modifiedPath.charAt(i))){
-                while(Character.isDigit(modifiedPath.charAt(i)) && i < modifiedPath.length()){
-                    repeat += String.valueOf(modifiedPath.charAt(i));
-                    i++;
-                }
-                int val = Integer.valueOf(repeat);
-                if(i < modifiedPath.length()){
-                    char repeatedLetter = modifiedPath.charAt(i);
-                    for (int x = 0; x < val; x++) {
-                        result += repeatedLetter;
-                    }
-                    repeat = "";
-                    i++;
-                }
-            }
-            else{
-                result += modifiedPath.charAt(i);
-                i++;
-            }
-        }
-        return result;
-
-    }
-
-    public static String generatePath( Maze maze){
+    public static String solveMaze( Maze maze){
         String resultPath = "";
         int [] startPosition = new int[2];
         startPosition[0] = maze.getStartRow();
@@ -126,7 +79,7 @@ public class MazeSolver {
         }
 
         Player runner = new Player(maze, startPosition, startingDirection);
-        String canonicalPath = convertToCanonical(path);
+        String canonicalPath = PathConverter.convertToCanonical(path);
         for(int i = 0; i < canonicalPath.length(); i++){
             char currentMove = canonicalPath.charAt(i);
     
