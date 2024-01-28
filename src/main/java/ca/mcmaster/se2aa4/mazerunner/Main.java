@@ -13,11 +13,7 @@ public class Main {
         Maze maze = mazeConfig.config(args);
         MazeSolver solver = new MazeSolver();
         solver.generateBothPaths(maze);
-       // maze.printMaze();
-        //maze.printMaze();
-        logger.info("**** Computing path");
-        logger.info("PATH NOT COMPUTED");
-        logger.info("** End of MazeRunner");
+
     }
 
 

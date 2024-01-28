@@ -30,14 +30,11 @@ public class MazeConfiguration{
                 path = commandLine.getOptionValue("p");
             }
 
-            if (inputFile != null) {
+            if (inputFile != null) 
                 return generateMaze(inputFile, path);
-            } else {
-                logger.error("Please provide an input file using the -i option.");
-            }
 
         } catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\",e);
+            logger.error("Missing input",e);
         }
         return null;
         
@@ -53,71 +50,33 @@ public class MazeConfiguration{
                 for (int idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
                         mazeString += "1";
-                        //System.out.print("WALL ");
 
                     } else if (line.charAt(idx) == ' ') {
                         mazeString += "0";
-                        //System.out.print("PASS ");
                     }
                 }
                 mazeString += System.lineSeparator();
-                //System.out.print((System.lineSeparator()));
             }
-            
             Maze maze = new Maze(mazeString);
             
             if(path != null){
-                String newPath = convertFactorizedForm(path);
-                boolean startToEnd = MazeSolver.verifyPath(maze,newPath,true);
-                boolean endToSTart = MazeSolver.verifyPath(maze,newPath,false);
+                boolean startToEnd = MazeSolver.verifyPath(maze,path,true);
+                boolean endToSTart = MazeSolver.verifyPath(maze,path,false);
                 if(startToEnd||endToSTart){
-                    logger.info("User Path is vaild " + path);
+                    System.out.println("Correct Path");
                 }
                 else{
-                    logger.info("User Path is not vaild " + path);
+                    System.out.println("Incorrect Path");
                 }
             }
             return maze;
         }
         catch(Exception e){
             logger.error("/!\\ An error has occured /!\\",e);
+            return null;
             
         }
-        return null;
        
-    }
-
-    private static String convertFactorizedForm(String path){
-        String result = "";
-        String repeat = "";
-        int i = 0;
-        String modifiedPath = path.replaceAll(" ", "");
-        while(i < modifiedPath.length()){
-            if(Character.isDigit(modifiedPath.charAt(i))){
-                while(Character.isDigit(modifiedPath.charAt(i)) && i < modifiedPath.length()){
-                    repeat += String.valueOf(modifiedPath.charAt(i));
-                    i++;
-                }
-                int val = Integer.valueOf(repeat);
-                //System.out.println(val);
-
-                if(i < modifiedPath.length()){
-                    char repeatedLetter = modifiedPath.charAt(i);
-                    for (int x = 0; x < val; x++) {
-                        result += repeatedLetter;
-                    }
-                    repeat = "";
-                    i++;
-                }
-               
-            }
-            else{
-                result += modifiedPath.charAt(i);
-                i++;
-            }
-        }
-        return result;
-
     }
 
 }

@@ -3,36 +3,19 @@ package ca.mcmaster.se2aa4.mazerunner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ca.mcmaster.se2aa4.mazerunner.Maze.Direction;
-
 public class MazeSolver {
     
     private static final Logger logger = LogManager.getLogger();
 
-
     public static void generateBothPaths(Maze maze){
-        String canonicalPath = generatePath(maze);
-        String factoriezedPath = convertToFactorized(canonicalPath);
+        String canonicalPath = solveMaze(maze);
+        String factoriezedPath = PathConverter.convertToFactorized(canonicalPath);
         System.out.println("Canonical Path: " + canonicalPath);
         System.out.println("Factorized Path: " + factoriezedPath);
     }
     
-    private static String convertToFactorized(String path){
-        String factorizedPath = "";
-        int i = 0;
-        while(i < path.length()){
-            char current = path.charAt(i);
-            int counter = 0;
-            while(i < path.length() && path.charAt(i) == current){
-                counter += 1;
-                i++;
-            }
-            factorizedPath += String.valueOf(counter) + current + " ";
-        }
-        return factorizedPath;
-    }
 
-    private static String generatePath( Maze maze){
+    private static String solveMaze( Maze maze){
         String resultPath = "";
         int [] startPosition = new int[2];
         startPosition[0] = maze.getStartRow();
@@ -94,9 +77,9 @@ public class MazeSolver {
         }
 
         Player runner = new Player(maze, startPosition, startingDirection);
-        
-        for(int i = 0; i < path.length(); i++){
-            char currentMove = path.charAt(i);
+        String canonicalPath = PathConverter.convertToCanonical(path);
+        for(int i = 0; i < canonicalPath.length(); i++){
+            char currentMove = canonicalPath.charAt(i);
     
             switch(currentMove){
                 case('F'):
@@ -119,14 +102,12 @@ public class MazeSolver {
             }
 
         }
-
+        //end condition
         if(runner.getPosition()[0] == maze.getEndRow() && runner.getPosition()[1] == maze.getEndColumn() && isStart || 
-        runner.getPosition()[0] == maze.getStartRow() && runner.getPosition()[1] == maze.getStartColumn() && isStart == false){
+        runner.getPosition()[0] == maze.getStartRow() && runner.getPosition()[1] == maze.getStartColumn() && isStart == false)
             return true;
-        }
-        else{
+        else
             return false;
-        }
 
     }
 
