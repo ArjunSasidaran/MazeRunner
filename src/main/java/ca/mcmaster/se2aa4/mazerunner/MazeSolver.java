@@ -9,7 +9,6 @@ public class MazeSolver {
     
     private static final Logger logger = LogManager.getLogger();
 
-
     public static void generateBothPaths(Maze maze){
         String canonicalPath = generatePath(maze);
         String factoriezedPath = convertToFactorized(canonicalPath);
@@ -27,12 +26,45 @@ public class MazeSolver {
                 counter += 1;
                 i++;
             }
-            factorizedPath += String.valueOf(counter) + current + " ";
+            if(counter == 1)
+                factorizedPath += current + " ";
+            else
+                factorizedPath += String.valueOf(counter) + current + " ";
         }
         return factorizedPath;
     }
 
-    private static String generatePath( Maze maze){
+    public static String convertToCanonical(String path){
+        String result = "";
+        String repeat = "";
+        int i = 0;
+        String modifiedPath = path.replaceAll(" ", "");
+        while(i < modifiedPath.length()){
+            if(Character.isDigit(modifiedPath.charAt(i))){
+                while(Character.isDigit(modifiedPath.charAt(i)) && i < modifiedPath.length()){
+                    repeat += String.valueOf(modifiedPath.charAt(i));
+                    i++;
+                }
+                int val = Integer.valueOf(repeat);
+                if(i < modifiedPath.length()){
+                    char repeatedLetter = modifiedPath.charAt(i);
+                    for (int x = 0; x < val; x++) {
+                        result += repeatedLetter;
+                    }
+                    repeat = "";
+                    i++;
+                }
+            }
+            else{
+                result += modifiedPath.charAt(i);
+                i++;
+            }
+        }
+        return result;
+
+    }
+
+    public static String generatePath( Maze maze){
         String resultPath = "";
         int [] startPosition = new int[2];
         startPosition[0] = maze.getStartRow();
@@ -94,9 +126,9 @@ public class MazeSolver {
         }
 
         Player runner = new Player(maze, startPosition, startingDirection);
-        
-        for(int i = 0; i < path.length(); i++){
-            char currentMove = path.charAt(i);
+        String canonicalPath = convertToCanonical(path);
+        for(int i = 0; i < canonicalPath.length(); i++){
+            char currentMove = canonicalPath.charAt(i);
     
             switch(currentMove){
                 case('F'):
@@ -119,14 +151,12 @@ public class MazeSolver {
             }
 
         }
-
+        //end condition
         if(runner.getPosition()[0] == maze.getEndRow() && runner.getPosition()[1] == maze.getEndColumn() && isStart || 
-        runner.getPosition()[0] == maze.getStartRow() && runner.getPosition()[1] == maze.getStartColumn() && isStart == false){
+        runner.getPosition()[0] == maze.getStartRow() && runner.getPosition()[1] == maze.getStartColumn() && isStart == false)
             return true;
-        }
-        else{
+        else
             return false;
-        }
 
     }
 

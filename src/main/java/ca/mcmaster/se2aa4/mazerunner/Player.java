@@ -44,22 +44,16 @@ public class Player {
 
     public void moveForward(){
         if(validMove()){
-            if(currentDirection == Direction.RIGHT){
+            if(currentDirection == Direction.RIGHT)
                 currentPosition[1] = currentPosition[1] + 1;
-            }
-            else if(currentDirection == Direction.LEFT){
+            else if(currentDirection == Direction.LEFT)
                 currentPosition[1] = currentPosition[1] - 1;
-            }
-            else if(currentDirection == Direction.UP){
+            else if(currentDirection == Direction.UP)
                 currentPosition[0] = currentPosition[0] - 1;
-            }
-            else if(currentDirection == Direction.DOWN){
+            else if(currentDirection == Direction.DOWN)
                 currentPosition[0] = currentPosition[0] + 1;
-            }
         }
     }
-
-
 
     public boolean validMove(){
 
