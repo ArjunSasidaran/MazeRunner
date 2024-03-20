@@ -4,7 +4,7 @@
 This program explores a maze, finding a path from an entry point to an exit one.
 
 - The maze is stored in a text file, with `#` representing walls and `␣` (_empty space_) representing passages.
-- You’ll find examples of such mazes in the [`examples`](./examples) directory. 
+- You can find examples of such mazes in the [`examples`](./examples) directory. 
     - You can also use the [Maze Generator](https://github.com/ace-lectures/maze-gen) to generate others.
 - The Maze is surrounded by walls on its four borders, except for its entry/exit points.
     - Entry and exit points are always located on the East and West border.
@@ -17,7 +17,6 @@ This program explores a maze, finding a path from an entry point to an exit one.
 - A factorized path squashes together similar instructions (i.e., `FFF` = `3F`, `LL` = `2L`).
 - Spaces are ignored in the instruction sequence (only for readability: `FFLFF` = `FF L FF`)
 - The program takes as input a maze and print the path on the standard output.
-    - For this assignment, the path does not have to be the shortest one.
 - The program can take a path as input and verify if it's a legit one.
 
 ## How to run this software?
